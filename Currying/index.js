@@ -176,3 +176,114 @@ function curry (fn){
           return (...moreArgs) => curried(...args, ...moreArgs);
     }
 }
+
+// In javascript functions are first class objects means that they behave like any other variables.
+
+
+sum(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)()
+
+
+let sum = function(a) {
+    return function(b){
+        if(b){ // if arguments exist call the next function
+            return sum(a + b);
+        }
+        return a; // return code
+    }
+}
+
+// Certainly! Let's review the code, provide an optimized version, and discuss some follow-up questions.
+
+// The given code implements an infinite currying function for summation. Here's an optimized version with explanations:
+
+// index.js
+// const sum = (a) => {
+//     const fn = (b) => b ? sum(a + b) : a;
+//     fn.valueOf = () => a;
+//     return fn;
+// };
+
+// console.log(sum(1)(2)(3)(4)(5)()); // 15
+// console.log(+sum(1)(2)(3)(4)(5));  // 15
+
+// Optimizations and improvements:
+// 1.
+// Used arrow functions for conciseness.
+// 2.
+// Removed the need for an empty function call at the end by implementing valueOf().
+// 3.
+// The valueOf() method allows the function to be implicitly converted to a number, enabling operations like addition without an empty function call.
+
+
+// Now, let's discuss some follow-up questions:
+
+// 1.
+// Q: How does this implementation handle type coercion?
+// A: The valueOf() method allows the function to be implicitly converted to a number when used in mathematical operations or when explicitly converted using the unary plus operator (+).
+// 2.
+// Q: How would you modify this implementation to support other operations like multiplication or subtraction?
+// A: Here's an example for a more flexible currying function:
+
+
+// index.js
+// const curry = (initialValue, operation) => {
+//     const fn = (a) => a !== undefined ? curry(operation(initialValue, a), operation) : initialValue;
+//     fn.valueOf = () => initialValue;
+//     return fn;
+// };
+
+// const sum = curry(0, (a, b) => a + b);
+// const multiply = curry(1, (a, b) => a * b);
+
+// console.log(+sum(1)(2)(3)(4)(5));  // 15
+// console.log(+multiply(1)(2)(3)(4)(5));  // 120
+
+// 3.
+// Q: How would you implement error handling for invalid inputs?
+// A: You could add type checking and throw errors for invalid inputs:
+
+
+// index.js
+// const sum = (a) => {
+//     if (typeof a !== 'number') throw new TypeError('Arguments must be numbers');
+//     const fn = (b) => {
+//         if (b === undefined) return a;
+//         if (typeof b !== 'number') throw new TypeError('Arguments must be numbers');
+//         return sum(a + b);
+//     };
+//     fn.valueOf = () => a;
+//     return fn;
+// };
+
+// console.log(+sum(1)(2)(3)); // 6
+// console.log(+sum(1)('2')); // TypeError: Arguments must be numbers
+
+// 4.
+// Q: How would you implement a currying function that can handle a fixed number of arguments?
+// A: Here's an implementation:
+
+
+// index.js
+// const curryN = (fn, n = fn.length) => {
+//     return function curried(...args) {
+//         if (args.length >= n) {
+//             return fn.apply(this, args);
+//         } else {
+//             return (...args2) => curried.apply(this, args.concat(args2));
+//         }
+//     };
+// };
+
+// const add3 = (a, b, c) => a + b + c;
+// const curriedAdd3 = curryN(add3);
+
+// console.log(curriedAdd3(1)(2)(3)); // 6
+// console.log(curriedAdd3(1, 2)(3)); // 6
+// console.log(curriedAdd3(1)(2, 3)); // 6
+
+// 5.
+// Q: How does currying relate to partial application, and what are the key differences?
+// A: This question allows you to discuss the relationship between currying and partial application, highlighting that currying always produces a unary function, while partial application can fix any number of arguments.
+
+
+// These questions and implementations demonstrate a deeper understanding of currying, its applications, and related concepts in JavaScript. They showcase techniques for handling different scenarios and optimizing for various use cases.
