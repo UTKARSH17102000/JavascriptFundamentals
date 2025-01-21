@@ -1,8 +1,10 @@
+var x;
 getName();
 console.log(x);
 
 
 function getName() {
+    var name = "John Doe";
     console.log(name);
 }
 
@@ -298,3 +300,8 @@ function getName() {
 // In this example, understanding TDZ and block scoping helps prevent unintended variable shadowing and ensures that variables are only accessed within their proper scope.
 
 // To conclude, the Temporal Dead Zone is a crucial concept in modern JavaScript that enhances code safety and predictability. It's an important aspect of how let and const work, and understanding it is key to writing robust JavaScript code.
+
+
+
+let a; 
+console.log(a);
