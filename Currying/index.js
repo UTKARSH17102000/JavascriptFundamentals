@@ -153,9 +153,10 @@ multiplyByTwo(3) // Output: 6
 
 // These questions and implementations demonstrate a deeper understanding of currying and its applications in JavaScript, showcasing techniques like infinite currying and performance optimization through memoization.
 
-
-function curry (fn) {
-    return function curried(args) {
+   
+function curry(fn) {
+    return function curried(...args) {
+        console.log(args, fn, args.length, fn.length);
         if (args.length >= fn.length) {
             return fn.apply(this, args);
         } else {
@@ -166,21 +167,27 @@ function curry (fn) {
     }
 }
 
-// infinite currying
-function curry (fn){
+const sum1 = (a, b) => a + b;
 
-    return function curried(...args){
-        if (args.length === 0) {
-            return fn(...args);
-          }
-          return (...moreArgs) => curried(...args, ...moreArgs);
-    }
-}
+const curriedSum = curry(sum1);
+
+console.log('hello', curriedSum(1)(2)(3)(4)(5)); // Output: hello 3
+
+// infinite currying
+// function curry (fn){
+
+//     return function curried(...args){
+//         if (args.length === 0) {
+//             return fn(...args);
+//           }
+//           return (...moreArgs) => curried(...args, ...moreArgs);
+//     }
+// }
 
 // In javascript functions are first class objects means that they behave like any other variables.
 
 
-sum(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)()
+
 
 
 let sum = function(a) {
@@ -191,6 +198,7 @@ let sum = function(a) {
         return a; // return code
     }
 }
+sum(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)()
 
 // Certainly! Let's review the code, provide an optimized version, and discuss some follow-up questions.
 

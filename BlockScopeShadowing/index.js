@@ -66,3 +66,16 @@
 
 
 // Understanding these concepts is crucial for writing predictable and bug-free JavaScript code, especially when dealing with complex applications and nested structures.
+
+
+
+
+
+Function.prototype.myBind = function myBind(...args) {
+ let context = args[0];
+ let params = args.slice(1);
+
+ return function(...outerArgs) {
+    return this.apply(context, [...params,...outerArgs])
+ }
+}

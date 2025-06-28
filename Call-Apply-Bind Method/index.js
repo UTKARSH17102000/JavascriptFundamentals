@@ -265,3 +265,69 @@ console.log("myBind", myBind());
 // It's important to note that while Function.prototype is powerful, it should be used judiciously. Modifying built-in prototypes can lead to naming conflicts and unexpected behavior in code that relies on the standard behavior of these objects. It's generally safer to extend prototypes of your own custom objects rather than built-in ones.
 
 // In modern JavaScript development, many developers prefer to use classes (introduced in ES6) for creating object-oriented structures, which provide a more familiar syntax for those coming from class-based languages. However, under the hood, classes in JavaScript still use prototypal inheritance.
+
+
+
+
+
+
+
+
+
+// Polyfills are JavaScript code snippets that provide implementations for features that are not supported in all browsers. In this case, you want to create polyfills for the call(), apply(), and bind() methods.
+// Here's a polyfill for each method:
+// 1.
+// call() Polyfill:
+// Function.prototype.myCall = function(context, ...args) {
+//   if (typeof context !== 'object' || context === null) {
+//     context = window;
+//   }
+
+//   context.fn = this;
+//   const result = context.fn(...args);
+//   delete context.fn;
+//   return result;
+// };
+// Explanation:
+// The myCall method is added to the Function.prototype object.
+// It takes the context (the object to be used as this) and any additional arguments to be passed to the function.
+// If the context is not an object or is null, it defaults to the global window object.
+// The function is assigned to a property of the context object (fn).
+// The function is called with the context object as this and the provided arguments.
+// The result of the function call is returned.
+// The temporary property fn is deleted from the context object.
+// 2.
+// apply() Polyfill:
+// Function.prototype.myApply = function(context, args) {
+//   if (typeof context !== 'object' || context === null) {
+//     context = window;
+//   }
+
+//   context.fn = this;
+//   const result = context.fn(...args);
+//   delete context.fn;
+//   return result;
+// };
+// Explanation:
+// The myApply method is added to the Function.prototype object.
+// It takes the context (the object to be used as this) and an array of arguments to be passed to the function (args).
+// If the context is not an object or is null, it defaults to the global window object.
+// The function is assigned to a property of the context object (fn).
+// The function is called with the context object as this and the provided arguments.
+// The result of the function call is returned.
+// The temporary property fn is deleted from the context object.
+// 3.
+// bind() Polyfill:
+// Function.prototype.myBind = function(context, ...args) {
+//   const caller = this;
+//   return function(...outerArgs) {
+//     return caller.apply(context, [...args, ...outerArgs]);
+//   };
+// };
+// Explanation:
+// The myBind method is added to the Function.prototype object.
+// It takes the context (the object to be used as this) and any additional arguments to be partially applied to the function (args).
+// A new function is returned, which when called, will call the original function (caller) with the provided context and arguments.
+// The apply() method is used to call the original function with the specified context and arguments.
+// The result of the function call is returned.
+// These polyfills provide the same functionality as the native call(), apply(), and bind() methods, but they can be used in environments that do not support these methods.
