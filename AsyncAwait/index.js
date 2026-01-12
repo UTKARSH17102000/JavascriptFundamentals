@@ -54,5 +54,31 @@
 
 
 
+// Run multiple async operations concurrently with Promise.all + async/await
+// async function getUserAndPosts(userId) {
+//     try {
+//       // Start both fetches at the same time
+//       const [userRes, postsRes] = await Promise.all([
+//         fetch(`https://jsonplaceholder.typicode.com/users/${userId}`),
+//         fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`)
+//       ]);
+  
+//       // Parse both responses concurrently as well
+//       const [user, posts] = await Promise.all([
+//         userRes.json(),
+//         postsRes.json()
+//       ]);
+  
+//       console.log('User:', user.name);
+//       console.log('Posts count:', posts.length);
+//     } catch (err) {
+//       console.error('Concurrent fetch failed:', err);
+//     }
+//   }
+  
+//   // Example usage
+//   getUserAndPosts(1);
+
+
 
 // Async Function will always return a Promise
