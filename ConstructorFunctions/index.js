@@ -84,3 +84,47 @@
 // We've also added a method introduce() to the Person.prototype, which means all instances of Person will share this method, saving memory.
 
 // These examples demonstrate how constructor functions can be used to create objects with shared properties and methods, allowing for the creation of multiple instances with their own unique data.
+
+
+
+
+// Webhooks are server-to-server. The client never receives the webhook directly. The flow is:
+// External service → Your server (webhook) → Your server → Client (via a channel the client already has)
+// That “channel” is usually one of: Server-Sent Events (SSE), WebSockets, or client polling. Here’s a concise flow and snippet for SSE (one-way server → client).
+// Flow
+// Client opens a long-lived connection to your server (e.g. SSE or WebSocket).
+// External service sends a webhook POST to your server.
+// Your server handles the webhook, then pushes the same (or derived) data to all connected clients over that connection.
+// So: webhook delivers to server → server relays to client.
+
+// Code snippet: Webhook → server → client (SSE)
+// 1. Client (browser) – subscribes to updates from your server:
+
+
+// // Client: open SSE connection to OUR server
+// const eventSource = new EventSource('/api/events');
+
+// eventSource.onmessage = (event) => {
+//   const data = JSON.parse(event.data);
+//   console.log('Update from server:', data);
+//   // e.g. { type: 'payment.succeeded', orderId: 123 }
+//   // Update UI, show notification, etc.
+// };
+
+// eventSource.onerror = () => {
+//   console.log('Connection lost, may reconnect');
+// };
+
+// 2. Server (Node/Express) – receives webhook, then pushes to clients:
+
+// 
+
+// So:
+// Webhook hits POST /webhooks/stripe → server handles it and responds to the external service.
+// Same server sends the event to every open SSE response in clients with client.write(...).
+// Client gets it in eventSource.onmessage and can update the UI.
+// Same idea with WebSockets
+// If you use WebSockets instead of SSE, the flow is identical; only the “relay” part changes:
+// Client: new WebSocket('wss://yourserver/ws') and ws.onmessage = (e) => { ... }.
+// Server: keep a set of WebSocket clients; in the webhook handler, do for (const ws of clients) ws.send(payload).
+// So in both cases: information from the external service reaches your server via webhook, and your server relays it to the client over SSE or WebSocket. If you want, we can next write the exact WebSocket version (client + server) in one block.
