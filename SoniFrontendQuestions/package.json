@@ -1,0 +1,8 @@
+{
+  "name": "soni-frontend-questions",
+  "private": true,
+  "description": "Runnable implementations for Soni Frontend Document exercises",
+  "dependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

@@ -3,8 +3,31 @@
 // array = [4,5,6,2,1,3,3,5,3,7,3,9,2,2]
 // Output : 2 ( most occurring is '3' count is 4 and second most occurring is '2' count is 3)
 
+function getSecondMostFrequent(arr) {
+    const frequencyMap = {};
+    
+    // Count the frequency of each element
+    for (const num of arr) {
+        frequencyMap[num] = (frequencyMap[num] || 0) + 1;
+    }
 
+    // Get unique frequencies sorted in descending order
+    // This correctly handles ties in frequencies.
+    const uniqueFreqs = [...new Set(Object.values(frequencyMap))].sort((a, b) => b - a);
+    
+    // If there is no second greatest frequency, return null
+    if (uniqueFreqs.length < 2) return null;
+    
+    const secondHighestFreq = uniqueFreqs[1];
+    
+    // Find the first element that has the second highest frequency
+    const result = Object.entries(frequencyMap).find(([_, freq]) => freq === secondHighestFreq);
+    
+    return result ? Number(result[0]) : null;
+}
 
+const inputArr = [4, 5, 6, 2, 1, 3, 3, 5, 3, 7, 3, 9, 2, 2];
+console.log("Second greatest frequency element:", getSecondMostFrequent(inputArr));
 
 // Garbage Collector.
 // what is the use call, bind and apply. Why we need them.
